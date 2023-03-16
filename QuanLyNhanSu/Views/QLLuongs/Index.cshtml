@@ -1,0 +1,64 @@
+﻿@model IEnumerable<QuanLyNhanSu.Models.tblLuong>
+
+@{
+    ViewBag.Title = "Index";
+    Layout = "~/Views/Shared/_Layout2.cshtml";
+}
+
+<h2 class="headerh2">Danh sách lương nhân viên</h2>
+
+<p class="px-md-5">
+    @Html.ActionLink("Thêm mới", "Create", null, new { @class = "btn btn-success" })
+</p>
+<form class="px-md-5">
+    <table class="table">
+        <tr class="">
+            <th>
+                @Html.DisplayNameFor(model => model.tblThongTinNV.TenNV)
+            </th>
+            <th>
+                Tháng
+            </th>
+            <th>
+                Số ngày làm việc
+            </th>
+            <th>
+                Hệ số lương
+            </th>
+            <th>
+                Tạm ứng
+            </th>
+            <th>
+                <a>Tổng lương</a>
+            </th>
+            <th></th>
+        </tr>
+
+        @foreach (var item in Model)
+        {
+            <tr>
+                <td>
+                    @Html.DisplayFor(modelItem => item.tblThongTinNV.TenNV)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.Thang)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.SoNgayLamViec)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.tblHSL.HSL)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.TamUng)
+                </td>
+                <td></td>
+                <td>
+                    @Html.ActionLink("Details", "Details", new { id = item.MaLuong })
+                </td>
+            </tr>
+        }
+
+    </table>
+</form>
+

@@ -1,0 +1,35 @@
+﻿@model QuanLyNhanSu.Models.tblQuyen
+
+@{
+    ViewBag.Title = "Details";
+    Layout = "~/Areas/Admin/Views/Shared/_Layout.cshtml";
+}
+
+<h2 class="headerh2">Chi tiết</h2>
+<form class="px-md-5">
+    <div>
+
+        <dl class="dl-horizontal">
+            <dt>
+                Tên quyền
+            </dt>
+
+            <dd>
+                @Html.DisplayFor(model => model.TenQuyen)
+            </dd>
+
+            <dt>
+                Mô tả
+            </dt>
+
+            <dd>
+                @Html.DisplayFor(model => model.MoTa)
+            </dd>
+
+        </dl>
+    </div>
+    <p>
+        @Html.ActionLink("Edit", "Edit", new { id = Model.Quyen }) |
+        @Html.ActionLink("Back to List", "Index")
+    </p>
+</form>

@@ -1,0 +1,65 @@
+﻿@model QuanLyNhanSu.Models.tblLuong
+
+@{
+    ViewBag.Title = "Details";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<h2 class="headerh2">Chi tiết lương tháng @Html.DisplayFor(model => model.Thang)</h2>
+
+<div class="px-md-5">
+
+    <div class="dl-horizontal d-flex px-md-5">
+        <p class="w-25">@Html.DisplayNameFor(model => model.tblThongTinNV.TenNV)</p>
+        @Html.DisplayFor(model => model.tblThongTinNV.TenNV)
+    </div>
+    <div class="dl-horizontal d-flex px-md-5">
+        <p class="w-25">
+            Tiền thưởng
+        </p>
+            @Html.DisplayFor(model => model.tblThuong.TienThuong)
+    </div>
+    <div class="dl-horizontal d-flex px-md-5">
+        <p class="w-25">
+            Tiền phụ cấp
+        </p>
+            @Html.DisplayFor(model => model.tblPhuCap.TienPhuCap)
+    </div>
+    <div class="dl-horizontal d-flex px-md-5">
+        <p class="w-25">
+            Số ngày làm việc
+        </p>
+
+            @Html.DisplayFor(model => model.SoNgayLamViec)
+    </div >
+    <div class="dl-horizontal d-flex px-md-5">
+        <p class="w-25">
+            Số giờ làm việc
+        </p>
+
+        
+            @Html.DisplayFor(model => model.SoGioLamViec)
+    </div>
+    <div class="dl-horizontal d-flex px-md-5">
+
+        <p class="w-25">
+            Tiền phạt
+        </p>
+
+        
+            @Html.DisplayFor(model => model.TienPhat)
+        
+    </div>
+    <div class="dl-horizontal d-flex px-md-5">
+        <p class="w-25">
+            Tạm ứng
+        </p>
+
+        
+            @Html.DisplayFor(model => model.TamUng)
+    </div>
+</div>
+<p class="px-md-5">
+    @Html.ActionLink("Edit", "Edit", new { id = Model.MaLuong }) |
+    @Html.ActionLink("Back to List", "Index")
+</p>
