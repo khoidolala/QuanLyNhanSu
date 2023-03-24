@@ -5,6 +5,7 @@ namespace QuanLyNhanSu.Models
     using System.ComponentModel.DataAnnotations;
     using System.ComponentModel.DataAnnotations.Schema;
     using System.Data.Entity.Spatial;
+    using System.Globalization;
 
     [Table("tblLuong")]
     public partial class tblLuong
@@ -42,5 +43,10 @@ namespace QuanLyNhanSu.Models
         public virtual tblThongTinNV tblThongTinNV { get; set; }
 
         public virtual tblThuong tblThuong { get; set; }
+        public string TongLuong()
+        {
+            double Luong = (double)(tblHSL.HSL*1550000/30*SoNgayLamViec+tblPhuCap.TienPhuCap+tblThuong.TienThuong-TienPhat-TamUng);
+            return Luong.ToString("C0", CultureInfo.CreateSpecificCulture("vi-VN"));
+        }
     }
 }

@@ -10,9 +10,18 @@
 <p class="px-md-5">
     @Html.ActionLink("Thêm mới", "Create", null, new { @class = "btn btn-success" })
 </p>
+<div class="px-md-5">
+    @using (Html.BeginForm("ExportToExcel", "QLLuongs", FormMethod.Post, new { enctype = "multipart/form-data" }))
+    {
+        <div>
+            <input type="submit" value="Export" class="btn-primary" />
+        </div>
+    }
+</div>
 <form class="px-md-5">
     <table class="table">
         <tr class="">
+            <th>Mã nhân viên</th>
             <th>
                 @Html.DisplayNameFor(model => model.tblThongTinNV.TenNV)
             </th>
@@ -38,6 +47,9 @@
         {
             <tr>
                 <td>
+                    @Html.DisplayFor(modelItem => item.MaNV)
+                </td>
+                <td>
                     @Html.DisplayFor(modelItem => item.tblThongTinNV.TenNV)
                 </td>
                 <td>
@@ -52,13 +64,14 @@
                 <td>
                     @Html.DisplayFor(modelItem => item.TamUng)
                 </td>
-                <td></td>
+                <td>
+                    @item.TongLuong()
+                </td>
                 <td>
                     @Html.ActionLink("Details", "Details", new { id = item.MaLuong })
                 </td>
             </tr>
         }
-
     </table>
 </form>
 

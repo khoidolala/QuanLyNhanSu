@@ -2,10 +2,12 @@
 using System.Collections.Generic;
 using System.Data;
 using System.Data.Entity;
+using System.IO;
 using System.Linq;
 using System.Net;
 using System.Web;
 using System.Web.Mvc;
+using ClosedXML.Excel;
 using QuanLyNhanSu.Models;
 
 namespace QuanLyNhanSu.Controllers
@@ -19,15 +21,7 @@ namespace QuanLyNhanSu.Controllers
         public ActionResult Index()
         {
             var tblLuongs = db.tblLuongs.Include(t => t.tblPhuCap).Include(t => t.tblThongTinNV).Include(t => t.tblThuong);
-            /*foreach (var item in tblLuongs)
-            {
-                tblHSL hsl = new tblHSL();
-                tblPhuCap pc = new tblPhuCap();
-                tblThuong th = new tblThuong();
-                float tong = 0;
-                tong = (float)(hsl.HSL * 1500000 - item.TienPhat + pc.TienPhuCap + th.TienThuong);
-                *//*item.TongLuong = tong;*//*
-            }*/
+            
             return View(tblLuongs.ToList());
         }
 
@@ -139,6 +133,43 @@ namespace QuanLyNhanSu.Controllers
             db.tblLuongs.Remove(tblLuong);
             db.SaveChanges();
             return RedirectToAction("Index");
+        }
+        [HttpPost]
+        public FileResult ExportToExcel()
+        {
+            DataTable dt = new DataTable("Grid");
+            dt.Columns.AddRange(new DataColumn[11] { new DataColumn("Mã lương"),
+                                                     new DataColumn("ID"),
+                                                     new DataColumn("Họ và tên"),
+                                                     new DataColumn("Tháng"),
+                                                     
+                                                     new DataColumn("Số ngày làm việc"),
+                                                     new DataColumn("Số giờ làm việc"),
+                                                     new DataColumn("Mã hệ số lương"),
+                                                     new DataColumn("Mã phụ cấp"),
+                                                     new DataColumn("Tiền phạt"),
+                                                     new DataColumn("Tạm ứng"),
+                                                     new DataColumn("Tổng lương"),});
+
+            var insuranceCertificate = from tblLuong in db.tblLuongs
+                                       join tblThongTinNV in db.tblThongTinNVs on tblLuong.MaNV equals tblThongTinNV.MaNV
+                                       select new { tblLuong, tblThongTinNV };
+
+            foreach (var insurance in insuranceCertificate)
+            {
+                dt.Rows.Add(insurance.tblLuong.MaLuong, insurance.tblThongTinNV.MaNV, insurance.tblThongTinNV.TenNV, insurance.tblLuong.Thang, insurance.tblLuong.SoNgayLamViec,
+                    insurance.tblLuong.SoGioLamViec, insurance.tblLuong.MaHSL, insurance.tblLuong.MaPhuCap, insurance.tblLuong.TienPhat, insurance.tblLuong.TamUng, insurance.tblLuong.TongLuong());
+            }
+
+            using (XLWorkbook wb = new XLWorkbook()) //Install ClosedXml from Nuget for XLWorkbook  
+            {
+                wb.Worksheets.Add(dt);
+                using (MemoryStream stream = new MemoryStream()) //using System.IO;  
+                {
+                    wb.SaveAs(stream);
+                    return File(stream.ToArray(), "application/vnd.openxmlformats-officedocument.spreadsheetml.sheet", "DanhSachLuong.xlsx");
+                }
+            }
         }
 
         protected override void Dispose(bool disposing)
