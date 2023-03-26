@@ -8,6 +8,7 @@ using System.Net;
 using System.Web;
 using System.Web.Mvc;
 using ClosedXML.Excel;
+using PagedList;
 using QuanLyNhanSu.Models;
 
 namespace QuanLyNhanSu.Controllers
@@ -18,11 +19,25 @@ namespace QuanLyNhanSu.Controllers
         
 
         // GET: QLLuongs
-        public ActionResult Index()
+        public ActionResult Index(string searchName, int? searchMonth,int page = 1)
         {
-            var tblLuongs = db.tblLuongs.Include(t => t.tblPhuCap).Include(t => t.tblThongTinNV).Include(t => t.tblThuong);
-            
-            return View(tblLuongs.ToList());
+            var tblLuongs = db.tblLuongs.Include(t => t.tblPhuCap).Include(t => t.tblThongTinNV).Include(t => t.tblThuong).OrderBy(b=>b.MaNV);
+            page = page < 1 ? 1 : page;
+            int pagesize = 5;
+            if (!string.IsNullOrEmpty(searchName))
+            {
+                tblLuongs = db.tblLuongs.Include(t => t.tblPhuCap).Include(t => t.tblThongTinNV).Include(t => t.tblThuong).Where(l => l.tblThongTinNV.TenNV.Contains(searchName)).OrderBy(b => b.MaNV);
+            }
+
+            if (searchMonth.HasValue)
+            {
+                tblLuongs = db.tblLuongs.Where(s => s.Thang == searchMonth.Value).OrderBy(x=>x.MaNV);
+            }
+            if(!string.IsNullOrEmpty(searchName) && searchMonth.HasValue)
+            {
+                tblLuongs = db.tblLuongs.Include(t => t.tblPhuCap).Include(t => t.tblThongTinNV).Include(t => t.tblThuong).Where(l => l.tblThongTinNV.TenNV.Contains(searchName) && l.Thang == searchMonth.Value).OrderBy(x => x.MaNV);
+            }
+            return View(tblLuongs.ToPagedList(page, pagesize));
         }
 
         // GET: QLLuongs/Details/5
