@@ -17,28 +17,28 @@
         <p class="w-25">
             Tiền thưởng
         </p>
-            @Html.DisplayFor(model => model.tblThuong.TienThuong)
+        @Html.DisplayFor(model => model.tblThuong.TienThuong)
     </div>
     <div class="dl-horizontal d-flex px-md-5">
         <p class="w-25">
             Tiền phụ cấp
         </p>
-            @Html.DisplayFor(model => model.tblPhuCap.TienPhuCap)
+        @Html.DisplayFor(model => model.tblPhuCap.TienPhuCap)
     </div>
     <div class="dl-horizontal d-flex px-md-5">
         <p class="w-25">
             Số ngày làm việc
         </p>
 
-            @Html.DisplayFor(model => model.SoNgayLamViec)
-    </div >
+        @Html.DisplayFor(model => model.SoNgayLamViec)
+    </div>
     <div class="dl-horizontal d-flex px-md-5">
         <p class="w-25">
             Số giờ làm việc
         </p>
 
-        
-            @Html.DisplayFor(model => model.SoGioLamViec)
+
+        @Html.DisplayFor(model => model.SoGioLamViec)
     </div>
     <div class="dl-horizontal d-flex px-md-5">
 
@@ -46,20 +46,29 @@
             Tiền phạt
         </p>
 
-        
-            @Html.DisplayFor(model => model.TienPhat)
-        
+
+        @Html.DisplayFor(model => model.TienPhat)
+
     </div>
     <div class="dl-horizontal d-flex px-md-5">
         <p class="w-25">
             Tạm ứng
         </p>
 
-        
-            @Html.DisplayFor(model => model.TamUng)
+
+        @Html.DisplayFor(model => model.TamUng)
+    </div>
+    <div class="dl-horizontal d-flex px-md-5">
+        <p class="w-25">
+            Tổng lương
+        </p>
+
+
+        @Model.TongLuong()
     </div>
 </div>
 <p class="px-md-5">
-    @Html.ActionLink("Edit", "Edit", new { id = Model.MaLuong }) |
-    @Html.ActionLink("Back to List", "Index")
+    @Html.ActionLink("Sửa", "Edit",new { id = Model.MaLuong },new { @class = "btn btn-success" }) &nbsp;
+    @Html.ActionLink("Quay lại", "Index",null,new { @class="btn btn-success"}) &nbsp;
+    @Html.ActionLink("Xóa","Delete",null, new { id = Model.MaLuong },new { @class="btn btn-danger" })
 </p>
