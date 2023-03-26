@@ -60,6 +60,9 @@
     <Reference Include="FastMember.Signed, Version=1.0.0.9, Culture=neutral, PublicKeyToken=9e8f22703bef9a29, processorArchitecture=MSIL">
       <HintPath>..\packages\FastMember.Signed.1.1.0\lib\net40\FastMember.Signed.dll</HintPath>
     </Reference>
+    <Reference Include="itextsharp, Version=5.5.10.0, Culture=neutral, PublicKeyToken=8354ae6d2174ddca, processorArchitecture=MSIL">
+      <HintPath>..\packages\iTextSharp.5.5.10\lib\itextsharp.dll</HintPath>
+    </Reference>
     <Reference Include="Microsoft.AspNetCore.Antiforgery, Version=2.0.0.0, Culture=neutral, PublicKeyToken=adb9793829ddae60, processorArchitecture=MSIL">
       <HintPath>..\packages\Microsoft.AspNetCore.Antiforgery.2.0.0\lib\netstandard2.0\Microsoft.AspNetCore.Antiforgery.dll</HintPath>
     </Reference>
@@ -420,6 +423,22 @@
     <Content Include="Areas\Admin\Views\tblQuyens\Edit.cshtml" />
     <Content Include="Areas\Admin\Views\tblQuyens\Index.cshtml" />
     <Content Include="Areas\NhanVien\Views\NVDangNhap\Login.cshtml" />
+    <Content Include="fonts\font-times-new-roman\font-times-new-roman.ttf" />
+    <Content Include="fonts\font-times-new-roman\SVN-Times New Roman 2 bold italic.ttf" />
+    <Content Include="fonts\font-times-new-roman\SVN-Times New Roman 2 bold.ttf" />
+    <Content Include="fonts\font-times-new-roman\SVN-Times New Roman 2 italic.ttf" />
+    <Content Include="fonts\font-times-new-roman\SVN-Times New Roman 2.ttf" />
+    <Content Include="fonts\font-times-new-roman\SVN-Times New Roman Bold Italic.ttf" />
+    <Content Include="fonts\font-times-new-roman\SVN-Times New Roman Bold.ttf" />
+    <Content Include="fonts\font-times-new-roman\SVN-Times New Roman Italic.ttf" />
+    <Content Include="fonts\font-times-new-roman\SVN-Times New Roman.ttf" />
+    <Content Include="fonts\font-times-new-roman\Times New Roman 400.ttf" />
+    <Content Include="fonts\font-times-new-roman\times new roman bold italic.ttf" />
+    <Content Include="fonts\font-times-new-roman\times new roman bold.ttf" />
+    <Content Include="fonts\font-times-new-roman\times new roman italic.ttf" />
+    <Content Include="fonts\font-times-new-roman\times new roman.ttf" />
+    <Content Include="fonts\font-times-new-roman\times-new-roman-14.ttf" />
+    <Content Include="fonts\font-times-new-roman\times.ttf" />
     <None Include="Scripts\jquery-3.4.1.intellisense.js" />
     <Content Include="Scripts\jquery-3.4.1.js" />
     <Content Include="Scripts\jquery-3.4.1.min.js" />

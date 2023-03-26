@@ -8,8 +8,11 @@ using System.Net;
 using System.Web;
 using System.Web.Mvc;
 using ClosedXML.Excel;
+using iTextSharp.text;
+using iTextSharp.text.pdf;
 using PagedList;
 using QuanLyNhanSu.Models;
+
 
 namespace QuanLyNhanSu.Controllers
 {
@@ -186,7 +189,70 @@ namespace QuanLyNhanSu.Controllers
                 }
             }
         }
+        public ActionResult DownloadPDF(string id)
+        {
+            // Lấy thông tin lương của nhân viên với ID được truyền vào
+            tblLuong tblLuong = db.tblLuongs.Find(id);
 
+            // Tạo file PDF
+            MemoryStream stream = new MemoryStream();
+            Document pdfDoc = new Document(PageSize.A4, 50, 50, 25, 25);
+            PdfWriter writer = PdfWriter.GetInstance(pdfDoc, stream);
+            BaseFont timesNewRoman = BaseFont.CreateFont("C:/Users/Admin/Desktop/TTTN/QuanLyNhanSu/QuanLyNhanSu/fonts/font-times-new-roman/times-new-roman-14.ttf", BaseFont.IDENTITY_H, true);
+            Font font = new Font(timesNewRoman, 14, Font.NORMAL);
+            pdfDoc.Open();
+
+            // Thêm thông tin lương vào file PDF
+            Paragraph para = new Paragraph("Thông tin lương của nhân viên",font);
+            pdfDoc.Add(para);
+
+            para = new Paragraph("Mã nhân viên: " + tblLuong.MaNV,font);
+            pdfDoc.Add(para);
+
+            para = new Paragraph("Tên nhân viên: " + tblLuong.tblThongTinNV.TenNV, font);
+            pdfDoc.Add(para);
+
+            para = new Paragraph("Hệ số lương: " + tblLuong.tblHSL.HSL.ToString(),font);
+            pdfDoc.Add(para);
+
+            para = new Paragraph("Số ngày làm việc: " + tblLuong.SoNgayLamViec.ToString(),font);
+            pdfDoc.Add(para);
+
+            para = new Paragraph("số giờ làm việc: " + tblLuong.SoGioLamViec.ToString(),font);
+            pdfDoc.Add(para);
+
+            para = new Paragraph("Phụ cấp: " + tblLuong.tblPhuCap.TienPhuCap.ToString(),font);
+            pdfDoc.Add(para);
+
+            para = new Paragraph("Tiền thưởng: " + tblLuong.tblThuong.TienThuong.ToString()+"đ",font);
+            pdfDoc.Add(para);
+
+            para = new Paragraph("Tiền phạt: " + tblLuong.TienPhat.ToString()+"đ",font);
+            pdfDoc.Add(para);
+
+            para = new Paragraph("Tạm ứng: " + tblLuong.TamUng.ToString()+"đ",font);
+            pdfDoc.Add(para);
+
+            para = new Paragraph("Tổng lương: " + tblLuong.TongLuong().ToString(),font);
+            pdfDoc.Add(para);
+
+            //font chữ, căn chỉnh
+            /*Font font = new Font(Font.FontFamily.TIMES_ROMAN, 12, Font.NORMAL);
+            para.setFont(font);
+
+            // Thiết lập kiểu căn chỉnh
+            para.setAlignment(Element.ALIGN_CENTER);
+
+            // Thiết lập độ lề trái
+            Paragraph.setIndentationLeft(20);*/
+            // Kết thúc tạo file PDF
+            pdfDoc.Close();
+            writer.Close();
+
+            // Gửi file PDF cho người dùng để tải về
+            byte[] file = stream.ToArray();
+            return File(file, "application/pdf", "employee-salary.pdf");
+        }
         protected override void Dispose(bool disposing)
         {
             if (disposing)
