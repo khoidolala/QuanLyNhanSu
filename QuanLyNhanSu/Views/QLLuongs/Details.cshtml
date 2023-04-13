@@ -70,6 +70,7 @@
 <p class="px-md-5">
     @Html.ActionLink("Sửa", "Edit", new { id = Model.MaLuong }, new { @class = "btn btn-success" }) &nbsp;
     @Html.ActionLink("Quay lại", "Index", null, new { @class = "btn btn-success" }) &nbsp;
-    @Html.ActionLink("Xóa", "Delete", null, new { id = Model.MaLuong }, new { @class = "btn btn-danger" })
-    <a href="@Url.Action("DownloadPDF", "QLLuongs", new { id = Model.MaLuong })">Tải file PDF</a>
+    @Html.ActionLink("Xóa", "Delete", null, new { id = Model.MaLuong }, new { @class = "btn btn-danger" }) &nbsp;
+    @*<a href="@Url.Action("DownloadPDF", "QLLuongs", new { id = Model.MaLuong })">Tải file PDF</a>*@
+    <button onclick="location.href='@Url.Action("DownloadPDF", "QLLuongs", new { id = Model.MaLuong })'" class="btn btn-success">Tải file PDF</button>
 </p>

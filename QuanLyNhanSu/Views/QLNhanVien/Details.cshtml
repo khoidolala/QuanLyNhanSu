@@ -128,12 +128,12 @@
                 <img src="@Url.Content(ImagePath)" width="180" height="200" class="img-thumbnail" />
             </dd>
             <dd>
-                @Html.ActionLink("Chỉnh sửa", "Edit", new { id = Model.MaNV})|
-                @Html.ActionLink("Quay lại", "Index", new { @class="btn btn-success"})
+                <button type="button" class="btn btn-outline-danger" onclick="location.href='@Url.Action("Edit", new { id = Model.MaNV })'">Chỉnh sửa</button> &nbsp;
+                @Html.ActionLink("Quay lại", "Index",null, new { @class="btn btn-success"})
             </dd>
         </dl>
         
     </div>
 </form>
-
+<input class="btn btn-da"/>
 

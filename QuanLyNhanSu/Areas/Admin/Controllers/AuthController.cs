@@ -39,6 +39,7 @@ namespace QuanLyNhanSu.Areas.Admin.Controllers
             }
             else
             {
+                
                 if (rowuser.Quyen != 1)
                 {
                     strerror = "Đây là trang của Admin hệ thống, vui lòng đăng nhập lại!";

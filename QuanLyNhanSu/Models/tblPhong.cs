@@ -1,4 +1,4 @@
-namespace QuanLyNhanSu.Models
+﻿namespace QuanLyNhanSu.Models
 {
     using System;
     using System.Collections.Generic;
@@ -16,15 +16,19 @@ namespace QuanLyNhanSu.Models
 
         [Key]
         [StringLength(15)]
+        [Display(Name ="Mã phòng/ban")]
         public string MaPhong { get; set; }
 
         [StringLength(50)]
+        [Display(Name = "Tên Phòng/ban")]
         public string TenPhong { get; set; }
 
         [StringLength(50)]
+        [Display(Name = "Trưởng phòng")]
         public string TenTruongPhong { get; set; }
 
         [StringLength(15)]
+        [Display(Name = "Số điện thoại phòng/ban")]
         public string DienThoaiPhong { get; set; }
 
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]

@@ -29,6 +29,10 @@
         [Key]
         [DatabaseGenerated(DatabaseGeneratedOption.None)]
         public int IDUser { get; set; }
-        //Thuộc tính mới
+        /*//Thuộc tính mới
+        [NotMapped]
+        public string ConnectionId { get; set; }
+        [NotMapped]
+        public bool IsOnline { get; set; }*/
     }
 }

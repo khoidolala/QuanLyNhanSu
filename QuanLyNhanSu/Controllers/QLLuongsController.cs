@@ -153,7 +153,7 @@ namespace QuanLyNhanSu.Controllers
             return RedirectToAction("Index");
         }
         [HttpPost]
-        public FileResult ExportToExcel()
+        public FileResult ExportToExcel(int? month)
         {
             DataTable dt = new DataTable("Grid");
             dt.Columns.AddRange(new DataColumn[11] { new DataColumn("Mã lương"),
@@ -170,7 +170,7 @@ namespace QuanLyNhanSu.Controllers
                                                      new DataColumn("Tổng lương"),});
 
             var insuranceCertificate = from tblLuong in db.tblLuongs
-                                       join tblThongTinNV in db.tblThongTinNVs on tblLuong.MaNV equals tblThongTinNV.MaNV
+                                       join tblThongTinNV in db.tblThongTinNVs on tblLuong.MaNV equals tblThongTinNV.MaNV where tblLuong.Thang == month
                                        select new { tblLuong, tblThongTinNV };
 
             foreach (var insurance in insuranceCertificate)

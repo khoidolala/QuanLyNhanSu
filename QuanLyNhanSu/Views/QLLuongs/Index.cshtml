@@ -2,7 +2,7 @@
 @using PagedList.Mvc
 @{
     ViewBag.Title = "Index";
-    Layout = "~/Views/Shared/_Layout2.cshtml";
+    Layout = "~/Views/Shared/_Layout.cshtml";
 }
 
 <h2 class="headerh2">Danh sách lương nhân viên</h2>
@@ -21,9 +21,13 @@
 <div class="px-md-5 pt-2">
     @using (Html.BeginForm("ExportToExcel", "QLLuongs", FormMethod.Post, new { enctype = "multipart/form-data" }))
     {
+    <div class="d-flex">
+        @Html.DropDownList("month", new SelectList(Enumerable.Range(1, 12)), "Chọn tháng", new { @class = "form-control form-control-sm w-auto text-center" })
         <div>
             <input type="submit" value="Export" class="btn-primary" />
         </div>
+    </div>
+        
     }
 </div>
 <form class="px-md-5">

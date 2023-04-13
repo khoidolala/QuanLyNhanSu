@@ -69,11 +69,11 @@ namespace QuanLyNhanSu.Controllers
                     return RedirectToAction("Index", "QLNhanVien");
 
                 }
-                if (rowuser.Quyen == 3)
+                else
                 {
                     Session["MaNV"] = rowuser.MaNV;
                     Session["TenNV"] = rowuser.TenNV;
-                    return RedirectToAction("Index", "QLLuongs");
+                    return RedirectToAction("Index", "NhanVien");
                 }
             }
 
