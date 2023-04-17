@@ -18,6 +18,7 @@ namespace QuanLyNhanSu.Controllers
     public class ChamCongController : Controller
     {
         private DBContext db = new DBContext();
+        public DbSet<tblChamCong> tblChamCongs { get; set; }
 
         // GET: ChamCong
         public ActionResult Index(string name, int page = 1)
@@ -222,78 +223,73 @@ namespace QuanLyNhanSu.Controllers
             db.SaveChanges();
             return RedirectToAction("Index");
         }
-        /*[HttpPost]
-        public ActionResult Upload(HttpPostedFileBase excelFile)
+       
+        public ActionResult ChamCongNhanVien()
         {
-            // Check if file is Excel file
-            if (excelFile != null && excelFile.ContentLength > 0 &&
-                (Path.GetExtension(excelFile.FileName) == ".xls" || Path.GetExtension(excelFile.FileName) == ".xlsx"))
+            
+            string ma = (string)Session["MaNV"];
+            var ttcc = db.tblChamCongs.Where(x => x.MaNV == ma).OrderByDescending(x => x.Ngay);
+            return View(ttcc);
+        }
+        public ActionResult NhanVienChamCong()
+        {
+            bool isSunday = DateTime.Today.DayOfWeek == DayOfWeek.Sunday;
+
+            if (isSunday)
             {
-                try
-                {
-                    // Create a stream for the Excel file
-                    Stream stream = excelFile.InputStream;
-                    IExcelDataReader reader = null;
-
-                    // Read the Excel file with either OpenXML or ClosedXML
-                    if (Path.GetExtension(excelFile.FileName) == ".xls")
-                    {
-                        reader = ExcelReaderFactory.CreateBinaryReader(stream);
-                    }
-                    else if (Path.GetExtension(excelFile.FileName) == ".xlsx")
-                    {
-                        reader = ExcelReaderFactory.CreateOpenXmlReader(stream);
-                    }
-
-                    // Read the data from the Excel file
-                    DataSet result = reader.AsDataSet();
-
-                    // Loop through each sheet in the Excel file and read the data
-                    foreach (DataTable table in result.Tables)
-                    {
-                        // Loop through each row in the sheet
-                        for (int i = 1; i < table.Rows.Count; i++)
-                        {
-                            // Create a new TimeLog object and set its properties
-                            tblChamCong cc = new tblChamCong();
-                            cc.ID = (int)table.Rows[i][1];
-                            cc.TenNV = table.Rows[i][2].ToString();
-                            cc.TenNV = table.Rows[i][3].ToString();
-                            cc.Ngay = DateTime.Parse(table.Rows[i][4].ToString());
-                            cc.ThoiGianRa = TimeSpan.Parse(table.Rows[i][5].ToString());
-                            cc.ThoiGianVao = TimeSpan.Parse(table.Rows[i][6].ToString());
-                            cc.TrangThai = table.Rows[i][7].ToString();
-
-                            // Save the TimeLog object to the database
-                            db.tblChamCongs.Add(cc);
-                            db.SaveChanges();
-                        }
-                    }
-
-                    // Close the Excel reader and stream
-                    reader.Close();
-                    stream.Close();
-
-                    // Return success message
-                    ViewBag.Message = "Tải lên thành công";
-                    return RedirectToAction("Index");
-                }
-                catch (Exception ex)
-                {
-                    // Return error message
-                    ViewBag.Message = "Lỗi: " + ex.Message;
-                    return View();
-                }
-            }
-            else
-            {
-                // Return error message if file is not Excel file
-                ViewBag.Message = "Hãy chọn tệp Excel";
+                ViewBag.Message = "Hôm nay là chủ nhật, không thể chấm công";
                 return View();
             }
-        }*/
+            if (DateTime.Now.Hour >= 20 || DateTime.Now.Hour < 8)
+            {
+                ViewBag.Message = "Không phải giờ hành chính của công ty, không thể chấm công";
+                return View();
+            }
 
+            return View();
+        }
+        [HttpPost]
+        public ActionResult NhanVienChamCong(tblChamCong cc)
+        {
+            string ma = (string)Session["MaNV"];
+                cc.MaNV = ma;
+                if (ModelState.IsValid)
+                {
+                    cc.MaNV = ma;
+                    cc.TenNV = db.tblThongTinNVs.Find(ma).TenNV;
+                    cc.Ngay = DateTime.Now;
+                    string timeString = Request.Form["timeBox"];
+                    cc.ThoiGianVao = DateTime.ParseExact(timeString, "h:mm:ss tt", CultureInfo.InvariantCulture).TimeOfDay;
+                    cc.ThoiGianRa = DateTime.ParseExact(Request.Form["timeBox1"], "h:mm:ss tt", CultureInfo.InvariantCulture).TimeOfDay;
+                    cc.TrangThai = TinhTrang(cc.ThoiGianVao, cc.ThoiGianRa);
+                    // Lưu thông tin chấm công vào cơ sở dữ liệu
+                    db.tblChamCongs.Add(cc);
+                    db.SaveChanges();
 
+                    // Hiển thị thông tin chấm công của nhân viên đó
+                    return View(cc);
+                
+            }
+            // Trả về trang hiện tại nếu dữ liệu không hợp lệ
+            return View();
+        }
+   
+
+        private string TinhTrang(TimeSpan? gioVao, TimeSpan? gioRa)
+        {
+            if (!gioVao.HasValue || !gioRa.HasValue||(gioRa-gioVao)<=new TimeSpan(6,0,0))
+            {
+                return "Nghỉ";
+            }
+
+            if (gioVao > new TimeSpan(8, 15, 0))
+            {
+                return "Muộn";
+            }
+            
+            return "đúng giờ";
+        }
+        
         protected override void Dispose(bool disposing)
         {
             if (disposing)
@@ -315,6 +311,7 @@ namespace QuanLyNhanSu.Controllers
                 throw new ArgumentException("Invalid time string format", nameof(timeString));
             }
         }
+        
 
     }
 }

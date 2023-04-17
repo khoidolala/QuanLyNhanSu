@@ -41,25 +41,29 @@
                     <div class="nav">
                         <div class="sb-sidenav-menu-heading"><h5>Quản Lý Nhân Sự</h5></div>
                         @*<a class="nav-link collapsed" href="#" data-bs-toggle="collapse" data-bs-target="#collapseLayouts" aria-expanded="false" aria-controls="collapseLayouts">
-                            <div class="sb-nav-link-icon"><i class="fas fa-columns"></i></div>
-                            Quản lý nhân viên
-                            <div class="sb-sidenav-collapse-arrow"><i class="fas fa-angle-down"></i></div>
-                        </a>
-                        <div class="collapse" id="collapseLayouts" aria-labelledby="headingOne" data-bs-parent="#sidenavAccordion">
-                            <nav class="sb-sidenav-menu-nested nav">
-                                <a class="nav-link" href="https://localhost:44334/NhanVien">Danh sách nhân viên</a>
-                                <a class="nav-link" href="layout-sidenav-light.html">Danh sách quyền</a>
-                            </nav>
-                        </div>*@
-                        <a class="nav-link" href="https://localhost:44334/QLLuongs/Index">
-                            <div class="sb-nav-link-icon"><i class="fas fa-tachometer-alt"></i></div>
-                            Quản lý lương
-                        </a>
-                        <a class="nav-link" href="index.html">
+            <div class="sb-nav-link-icon"><i class="fas fa-columns"></i></div>
+            Quản lý nhân viên
+            <div class="sb-sidenav-collapse-arrow"><i class="fas fa-angle-down"></i></div>
+        </a>
+        <div class="collapse" id="collapseLayouts" aria-labelledby="headingOne" data-bs-parent="#sidenavAccordion">
+            <nav class="sb-sidenav-menu-nested nav">
+                <a class="nav-link" href="https://localhost:44334/NhanVien">Danh sách nhân viên</a>
+                <a class="nav-link" href="layout-sidenav-light.html">Danh sách quyền</a>
+            </nav>
+        </div>*@
+                        <a class="nav-link" href="@Url.Action("NhanVienChamCong","ChamCong")">
                             <div class="sb-nav-link-icon"><i class="fas fa-tachometer-alt"></i></div>
                             Chấm công
                         </a>
+                        <a class="nav-link" href="@Url.Action("ChamCongNhanVien","ChamCong")">
+                            <div class="sb-nav-link-icon"><i class="fas fa-tachometer-alt"></i></div>
+                            Bảng chấm công
+                        </a>
                         <a class="nav-link" href="index.html">
+                            <div class="sb-nav-link-icon"><i class="fas fa-tachometer-alt"></i></div>
+                            Xin nghỉ phép
+                        </a>
+                        <a class="nav-link" href="@Url.Action("ThongTinCaNhan","LoginNhanVien")">
                             <div class="sb-nav-link-icon"><i class="fa-regular fa-user"></i></div>
                             Thông tin cá nhân
                         </a>

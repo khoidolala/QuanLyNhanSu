@@ -73,7 +73,7 @@ namespace QuanLyNhanSu.Controllers
                 {
                     Session["MaNV"] = rowuser.MaNV;
                     Session["TenNV"] = rowuser.TenNV;
-                    return RedirectToAction("Index", "NhanVien");
+                    return RedirectToAction("ThongTinCaNhan", "LoginNhanVien");
                 }
             }
 
@@ -94,24 +94,24 @@ namespace QuanLyNhanSu.Controllers
         }
 
         [HttpPost]
-        public ActionResult ChangePassword(string odlPassword, string newPassword, string comfirmPassword)
+        public ActionResult ChangePassword(string oldPassword, string newPassword, string comfirmPassword)
         {
             var id = Session["MaNV"] as string;
-            var user = db.tblUsers.Find(id);
+            var user = db.tblUsers.Where(x=>x.MaNV==id).FirstOrDefault();
             Session["Password"] = user.Password;
             if (user == null)
             {
                 return HttpNotFound();
             }
-            if (user.Password != odlPassword)
+            if (user.Password != oldPassword)
             {
                 ViewBag.Error = "Mật khẩu không khớp";
-                return RedirectToAction("ChangePassword");
+                return View();
             }
             if(newPassword!=comfirmPassword)
             {
                 ViewBag.Error1 = "Mật khẩu không khớp";
-                return RedirectToAction("ChangePassword");
+                return View();
             }
             user.Password = newPassword;
             db.SaveChanges();

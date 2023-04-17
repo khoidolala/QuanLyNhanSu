@@ -1,4 +1,5 @@
 using System;
+using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations.Schema;
 using System.Data.Entity;
 using System.Linq;
@@ -34,4 +35,5 @@ namespace QuanLyNhanSu.Models
 
         public System.Data.Entity.DbSet<QuanLyNhanSu.Models.tblQuyen> tblQuyens { get; set; }
     }
+    
 }
