@@ -233,7 +233,7 @@ namespace QuanLyNhanSu.Controllers
         }
         public ActionResult NhanVienChamCong()
         {
-            bool isSunday = DateTime.Today.DayOfWeek == DayOfWeek.Sunday;
+            /*bool isSunday = DateTime.Today.DayOfWeek == DayOfWeek.Sunday;
 
             if (isSunday)
             {
@@ -245,7 +245,7 @@ namespace QuanLyNhanSu.Controllers
                 ViewBag.Message = "Không phải giờ hành chính của công ty, không thể chấm công";
                 return View();
             }
-
+*/
             return View();
         }
         [HttpPost]

@@ -88,5 +88,7 @@
         public virtual ICollection<tblLuong> tblLuongs { get; set; }
 
         public virtual tblPhong tblPhong { get; set; }
+        
+        public virtual ICollection<tblNghiPhep> TblNghiPheps { get; set; }
     }
 }

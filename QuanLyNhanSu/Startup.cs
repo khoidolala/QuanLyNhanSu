@@ -8,6 +8,7 @@ namespace QuanLyNhanSu
     {
         public void Configuration(IAppBuilder app)
         {
+            app.MapSignalR();
             // Configure the application here
         }
     }

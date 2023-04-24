@@ -8,6 +8,8 @@ using System.Security.Cryptography;
 using System.Threading.Tasks;
 using System.Data.Entity;
 using System.Web.Security;
+using QuanLyNhanSu.Utils;
+using System.Web.Services.Description;
 
 namespace QuanLyNhanSu.Controllers
 {
@@ -23,7 +25,7 @@ namespace QuanLyNhanSu.Controllers
                 var password = Request.Cookies["LoginCookie"]["password"];
 
                 // Kiểm tra đăng nhập
-                if (username!=null && password!=null)
+                if (username != null && password != null)
                 {
                     // Đăng nhập thành công
                     FormsAuthentication.SetAuthCookie(username, true);
@@ -78,7 +80,7 @@ namespace QuanLyNhanSu.Controllers
             }
 
             ViewBag.Error = "<span class='text-danger'>" + strerror + "</span>";
-            
+
             return View();
         }
         public ActionResult Logout()
@@ -97,7 +99,7 @@ namespace QuanLyNhanSu.Controllers
         public ActionResult ChangePassword(string oldPassword, string newPassword, string comfirmPassword)
         {
             var id = Session["MaNV"] as string;
-            var user = db.tblUsers.Where(x=>x.MaNV==id).FirstOrDefault();
+            var user = db.tblUsers.Where(x => x.MaNV == id).FirstOrDefault();
             Session["Password"] = user.Password;
             if (user == null)
             {
@@ -108,14 +110,54 @@ namespace QuanLyNhanSu.Controllers
                 ViewBag.Error = "Mật khẩu không khớp";
                 return View();
             }
-            if(newPassword!=comfirmPassword)
+            if (newPassword != comfirmPassword)
             {
                 ViewBag.Error1 = "Mật khẩu không khớp";
                 return View();
             }
             user.Password = newPassword;
             db.SaveChanges();
-            return RedirectToAction("Login","LoginNhanVien");
+            return RedirectToAction("Login", "LoginNhanVien");
+        }
+        public ActionResult ForgotPassword()
+        {
+            return View();
+        }
+        [HttpPost]
+        public ActionResult ForgotPassword(string email)
+        {
+            var nv = db.tblThongTinNVs.SingleOrDefault(x => x.Email == email);
+            if (nv != null)
+            {
+                Random rnd = new Random();
+                int code = rnd.Next(1000, 9999);
+
+                EmailSender.Send("Mã xác minh", email, "khuongip564gb@gmail.com", "cjwbneedakkwoxnb", "Code mã minh: " + code);
+                Session["Email"] = nv.Email;
+                Session["code"] = code;
+                return Redirect("/LoginNhanVien/ConfirmCode");
+            }
+            ViewBag.Error = "Email không tồn tại";
+            return View();
+        }
+        public ActionResult ConfirmCode()
+        {
+            return View();
+        }
+        [HttpPost]
+        public ActionResult ConfirmCode(string code, string password)
+        {
+            if(code == Session["code"].ToString())
+            {
+                var email = Session["Email"] as string;
+                var nv = db.tblThongTinNVs.SingleOrDefault(x => x.Email == email);
+                var user = db.tblUsers.SingleOrDefault(x => x.MaNV == nv.MaNV);
+                user.Password = password;
+                db.SaveChanges();
+                return Redirect("/LoginNhanVien/Login");
+            }
+            ViewBag.Error = "Mã xác minh không đúng";
+            return View();
         }
         public ActionResult ThongTinCaNhan()
         {

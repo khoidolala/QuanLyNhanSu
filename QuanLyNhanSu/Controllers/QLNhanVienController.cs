@@ -171,6 +171,17 @@ namespace QuanLyNhanSu.Controllers
             return RedirectToAction("Index");
         }
 
+        public ActionResult NghiPhep()
+        {
+            return View();
+        }
+        public ActionResult NghiPhep(DateTime start, DateTime end)
+        {
+            var id = Session["MaNV"] as string;
+
+            return View();
+        }
+
         protected override void Dispose(bool disposing)
         {
             if (disposing)

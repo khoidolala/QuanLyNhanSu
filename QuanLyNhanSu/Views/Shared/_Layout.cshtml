@@ -16,7 +16,7 @@
 
 </head>
 <body class="sb-nav-fixed">
-   
+
     <nav class="sb-topnav navbar navbar-expand navbar-dark bg-dark">
         <!-- Navbar Brand-->
         <a class="navbar-brand ps-3" style="color:blue">KTECH</a>
@@ -51,18 +51,19 @@
                             @*<div class="sb-sidenav-collapse-arrow"><i class="fas fa-angle-down"></i></div>*@
                         </a>
                         <!--<div class="collapse" id="collapseLayouts" aria-labelledby="headingOne" data-bs-parent="#sidenavAccordion">
-        <nav class="sb-sidenav-menu-nested nav">
-            <a class="nav-link" href="https://localhost:44334/QLNhanVien">Danh sách nhân viên</a>-->
+                        <nav class="sb-sidenav-menu-nested nav">
+                            <a class="nav-link" href="https://localhost:44334/QLNhanVien">Danh sách nhân viên</a>-->
                         @*<a class="nav-link" href="layout-sidenav-light.html">Danh sách quyền</a>*@
                         <!--</nav>
-    </div>-->
+                        </div>-->
                         <a class="nav-link" href="https://localhost:44334/QLPhongs/Index">
                             <div class="sb-nav-link-icon"><i class="fas fa-tachometer-alt"></i></div>
                             Quản lý phòng ban
                         </a>
-                        <a class="nav-link" href="@Url.Action("Index","ChamCong")">
+                        <a class="nav-link" href="@Url.Action("Index","ChamCong")" style="position: relative;">
                             <div class="sb-nav-link-icon"><i class="fas fa-tachometer-alt"></i></div>
                             Quản lý chấm công
+                            <div class="sb-nav-link-icon" id="noti" style="position: absolute;left: 180px;top: 0;color: red;"></div>
                         </a>
                         <a class="nav-link" href="@Url.Action("Index","QLLuongs")">
                             <div class="sb-nav-link-icon"><i class="fas fa-columns"></i></div>
@@ -81,7 +82,7 @@
                 <div class="container-fluid px-4">
                     <div class="d-flex align-items-center justify-content-between small">
                         <div class="text-muted">Copyright &copy; Your Website 2023</div>
-                        
+
                         <div>
                             <a href="https://www.facebook.com/nguyentienkhoi060798/" target="_blank"><i class="fa-brands fa-facebook fa-3x"></i></a>
                             &middot;
@@ -92,6 +93,32 @@
             </footer>
         </div>
     </div>
+    <script type="text/javascript">
+        $(document).ready(function () {
+            if (localStorage.getItem("noti")) {
+                showNoti();
+            }
+
+            var hub = $.connection.chamCongHubs;
+            $.connection.hub.start();
+
+            hub.client.displayMessage = function () {
+                showNoti();
+            }
+
+            hub.client.setLocalStoage = function () {
+                setLocalStoage();
+            }
+
+            function showNoti() {
+                $("#noti").html("New");
+            }
+
+            function setLocalStoage() {
+                localStorage.setItem("noti", true);
+            }
+        });
+    </script>
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/js/bootstrap.bundle.min.js" crossorigin="anonymous"></script>
     <script src="/Assets/Admin/js/scripts.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/2.8.0/Chart.min.js" crossorigin="anonymous"></script>
@@ -99,5 +126,7 @@
     <script src="/Assets/Admin/assets/demo/chart-bar-demo.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/simple-datatables@latest" crossorigin="anonymous"></script>
     <script src="/Assets/Admin/js/datatables-simple-demo.js"></script>
+    <script src="~/Scripts/jquery.signalR-2.4.3.min.js"></script>
+    <script src="~/signalr/hubs" type="text/javascript"></script>
 </body>
 </html>

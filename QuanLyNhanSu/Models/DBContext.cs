@@ -21,8 +21,6 @@ namespace QuanLyNhanSu.Models
         public virtual DbSet<tblThongTinNV> tblThongTinNVs { get; set; }
         public virtual DbSet<tblThuong> tblThuongs { get; set; }
         public virtual DbSet<tblUser> tblUsers { get; set; }
-        
-       
 
         protected override void OnModelCreating(DbModelBuilder modelBuilder)
         {
@@ -34,6 +32,7 @@ namespace QuanLyNhanSu.Models
         public System.Data.Entity.DbSet<QuanLyNhanSu.Models.tblChamCong> tblChamCongs { get; set; }
 
         public System.Data.Entity.DbSet<QuanLyNhanSu.Models.tblQuyen> tblQuyens { get; set; }
+        public System.Data.Entity.DbSet<QuanLyNhanSu.Models.tblNghiPhep> tblNghiPhep { get; set; }
     }
     
 }
